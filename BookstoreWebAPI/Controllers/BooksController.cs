@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,26 +12,38 @@ namespace BookstoreWebAPI.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IBookRepository _bookRepo;
 
-        public BooksController(ApplicationDbContext db)
+        public BooksController(IBookRepository bookRepo)
         {
-            _db = db;
+            _bookRepo = bookRepo;
         }
 
         // GET: api/<BooksController>
         [HttpGet]
-        public async Task<ActionResult<List<Books>>> Get()
+        public async Task<ActionResult<List<Books>>> GetBooks()
         {
-            var books = await _db.Books.ToListAsync();
-            return books;
+            var books = await _bookRepo.GetBooksAsync();
+            return Ok(books);
         }
 
         // GET api/<BooksController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Books>> Get(int id)
+        public async Task<ActionResult<Books>> GetBook(int id)
         {
-            return await _db.Books.FindAsync(id);
+            return await _bookRepo.GetBookByIdAsync(id);
+        }
+
+        [HttpGet("brands")]
+        public async Task<ActionResult<IReadOnlyList<BookBrand>>> GetBrands()
+        {
+            return Ok(await _bookRepo.GetBooksBrandsAsync());
+        }
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<BookType>>> GetTypes()
+        {
+            return Ok(await _bookRepo.GetBooksTypesAsync());
         }
 
         // POST api/<BooksController>
