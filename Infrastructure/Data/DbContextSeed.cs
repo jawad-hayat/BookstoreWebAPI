@@ -1,5 +1,6 @@
 ﻿
 using Core.Entities;
+using Core.Entities.OrderAggregate;
 using Newtonsoft.Json;
 
 namespace Infrastructure.Data
@@ -27,11 +28,17 @@ namespace Infrastructure.Data
             if (!db.Books.Any())
             {
                 var booksData = File.ReadAllText("../Infrastructure/Data/SeedData/books.json");
-                var books = JsonConvert.DeserializeObject<List<Books>>(booksData);
+                var books = JsonConvert.DeserializeObject<List<Book>>(booksData);
                 db.Books.AddRange(books);
                 await db.SaveChangesAsync();
             }
-
+            if (!db.DeliveryMethods.Any())
+            {
+                var deliveryData = File.ReadAllText("../Infrastructure/Data/SeedData/delivery.json");
+                var methods = JsonConvert.DeserializeObject<List<DeliveryMethod>>(deliveryData);
+                db.DeliveryMethods.AddRange(methods);
+                await db.SaveChangesAsync();
+            }
             //just for debugging purpose
             //if (!db.Books.Any())
             //{

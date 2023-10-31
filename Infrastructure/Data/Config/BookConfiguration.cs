@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Config
 {
-    public class BookConfiguration : IEntityTypeConfiguration<Books>
+    public class BookConfiguration : IEntityTypeConfiguration<Book>
     {
-        public void Configure(EntityTypeBuilder<Books> builder)
+        public void Configure(EntityTypeBuilder<Book> builder)
         {
             builder.Property(e => e.Name).IsRequired().HasMaxLength(50);
             builder.Property(e => e.Description).IsRequired();

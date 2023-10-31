@@ -12,7 +12,7 @@ namespace Infrastructure.Data
         {
             _db = db;
         }
-        public async Task<Books> GetBookByIdAsync(int id)
+        public async Task<Book> GetBookByIdAsync(int id)
         {
             return await _db.Books
                 .Include(b => b.BookBrand)
@@ -20,7 +20,7 @@ namespace Infrastructure.Data
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
-        public async Task<IReadOnlyList<Books>> GetBooksAsync()
+        public async Task<IReadOnlyList<Book>> GetBooksAsync()
         {
             return await _db.Books
                 .Include(b => b.BookBrand)
