@@ -6,6 +6,5 @@ namespace Core.Entities
     {
         [Key]
         public int Id { get; set; }
-        //jawad
     }
 }
